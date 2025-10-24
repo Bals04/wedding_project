@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/703/703213.png">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica&display=swap');
         @import url('https://fonts.cdnfonts.com/css/neue-haas-grotesk-display');
@@ -27,25 +29,73 @@
         }
 
         /* Preloader Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+        #hero {
+            transition: opacity 1s ease-in-out, background-image 1s ease-in-out;
+        }
+
+        /* === PRELOADER FIXED === */
         #preloader {
             position: fixed;
-            width: 100%;
-            height: 100vh;
-            background: #2C2A29;
+            inset: 0;
+            background: radial-gradient(circle at center, #6e1a13, #4b0a06);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
+            overflow: hidden;
             transition: opacity 1s ease-out, visibility 1s ease-out;
         }
 
+
+        /* Floating sparkles (optional subtle background particles) */
+        #preloader::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* ✅ prevent horizontal overflow */
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 223, 186, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: twinkle 8s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .preloader-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: float 10s ease-in-out infinite;
+        }
+
         .preloader-text {
-            font-size: 3rem;
-            color: white;
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            color: #edc066;
             font-family: 'Great Vibes', cursive;
+            text-shadow: 0 0 10px rgba(237, 192, 102, 0.6),
+                0 0 20px rgba(237, 192, 102, 0.4);
             opacity: 0;
             animation: fadeIn 2s ease-in-out forwards;
         }
+
+        @keyframes glowPulse {
+            from {
+                text-shadow: 0 0 10px rgba(237, 192, 102, 0.6);
+            }
+
+            to {
+                text-shadow: 0 0 25px rgba(237, 192, 102, 1);
+            }
+        }
+
 
         @keyframes fadeIn {
             0% {
@@ -56,58 +106,123 @@
                 opacity: 1;
             }
         }
+
+        :root {
+            --scroll-distance: 50%;
+        }
+
+        @keyframes scroll-left {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(calc(-1 * var(--scroll-distance)));
+            }
+        }
+
+        @keyframes scroll-right {
+            from {
+                transform: translateX(calc(-1 * var(--scroll-distance)));
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .animate-scroll-left {
+            animation: scroll-left 50s linear infinite;
+        }
+
+        .animate-scroll-right {
+            animation: scroll-right 50s linear infinite;
+        }
+
+        .carousel-img {
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-img:hover {
+            transform: scale(1.05);
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+            width: 100%;
+        }
     </style>
 </head>
 
 <body class="bg-gray-50">
     <!-- Preloader -->
     <div id="preloader">
-        <h1 class="preloader-text">Joseph & Imogen</h1>
+        <div class="preloader-content">
+            <h1 class="preloader-text">Maxine & Cynel</h1>
+        </div>
     </div>
     <!-- Hero Section -->
-    <section class="relative h-screen bg-cover bg-center"
-        style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <section id="hero" class="relative h-screen overflow-hidden">
+        <!-- Background Layers -->
+        <div id="bg1" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 opacity-100"
+            style="background-image: url('/IMG_2173.jpeg')"></div>
+        <div id="bg2" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 opacity-0"
+            style="background-image: url('/IMG_2175.jpeg')"></div>
+
+        <!-- Overlay content -->
         <div
             class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white text-center">
-            <h1 class="text-7xl italic tracking-wide">Joseph & Imogen</h1>
-            <p class="text-2xl mt-4 font-light">May 1, 2025</p>
+            <h1 class="text-7xl text-[#edc066] italic tracking-wide">Maxine & Cynel</h1>
+            <p class="text-2xl text-[#edc066] mt-4 font-light">January 17, 2026</p>
         </div>
     </section>
 
     <!-- Gallery Section -->
-    <section class="py-24 bg-[#F8ECE3] px-12 text-center">
-        <h2 class="text-5xl text-gray-800 mb-8" style="font-family: 'Great Vibes', cursive;">Prenup shots</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="grid gap-4" data-aos="fade-in" data-aos-duration="9000">
-                <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    class="rounded-xl shadow-md object-cover w-full h-64">
-                <img src="https://plus.unsplash.com/premium_photo-1675851211519-fc13d860e103?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    class="rounded-xl shadow-md object-cover w-full h-48">
-            </div>
-            <div class="grid gap-4" data-aos="fade-in" data-aos-duration="6000">
-                <img src="https://images.unsplash.com/photo-1604017011826-d3b4c23f8914?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    class="rounded-xl shadow-md object-cover w-full h-48">
-                <img src="https://images.unsplash.com/photo-1600270237614-d20aef1c8b14?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    class="rounded-xl shadow-md object-cover w-full h-64">
-            </div>
-            <div class="grid gap-4" data-aos="fade-in" data-aos-duration="4000">
-                <img src="https://plus.unsplash.com/premium_photo-1711132425086-b0ea2f2d4b8b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    class="rounded-xl shadow-md object-cover w-full h-64">
-                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    class="rounded-xl shadow-md object-cover w-full h-48">
-            </div>
+    <section class="py-24 bg-[#5e110b] px-12 text-center overflow-hidden relative">
+        <h2 class="text-5xl text-[#edc066] mb-8" style="font-family: 'Great Vibes', cursive;">
+            Prenup Shots
+        </h2>
+
+        <!-- Gradient fades -->
+        <div
+            class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#5e110b] to-transparent z-10 pointer-events-none">
+        </div>
+        <div
+            class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#5e110b] to-transparent z-10 pointer-events-none">
+        </div>
+
+        <!-- Carousel Wrapper -->
+        <div id="carouselWrapper" class="relative overflow-hidden space-y-6">
+            <!-- Row 1 -->
+            <div id="carouselTrack1" class="flex gap-6 animate-scroll-left will-change-transform"></div>
+            <!-- Row 2 -->
+            <div id="carouselTrack2" class="flex gap-6 animate-scroll-right will-change-transform"></div>
+        </div>
+
+        <!-- Gallery Button -->
+        <div class="mt-12 flex justify-center">
+            <a href="/gallery.html" class="inline-flex items-center justify-center bg-[#edc066]
+       text-[#5e110b] w-14 h-14 rounded-full shadow-lg transition-all duration-500
+       hover:scale-110 hover:shadow-[0_0_25px_rgba(237,192,102,0.7)]
+       focus:outline-none">
+                <span class="material-symbols-outlined text-[28px]">
+                    image
+                </span>
+            </a>
         </div>
     </section>
 
     <!-- Wedding Details -->
     <section class="py-24 text-white px-6 md:px-12 text-center relative bg-cover bg-center"
-        style="background-image: url('https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"
-        data-aos="fade-in" data-aos-duration="3000">
+        style="background-image: url('/IMG_2143.jpeg');" data-aos="fade-in" data-aos-duration="3000">
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="relative z-10">
-            <h1 class="text-xl md:text-2xl mb-6" style="font-family: 'Great Vibes', cursive;">We Are Waiting For.....
+            <h1 class="text-xl md:text-2xl text-[#edc066] mb-6 font-[400]" style="font-family: 'Great Vibes', cursive;">
+                We Are Waiting For.....
             </h1>
-            <h1 class="text-4xl md:text-6xl font-light tracking-wide mb-8" style="font-family: 'Great Vibes', cursive;">
+            <h1 class="text-4xl text-[#edc066] md:text-6xl font-light tracking-wide mb-8"
+                style="font-family: 'Great Vibes', cursive;">
                 The
                 Big Day</h1>
 
@@ -117,25 +232,25 @@
                 <div class="grid grid-cols-2 md:flex justify-center gap-6 md:gap-8 text-3xl md:text-5xl font-extrabold"
                     style="font-family: 'Great Vibes', cursive;">
                     <div
-                        class="flex flex-col items-center bg-[#F8ECE3] text-[#2C2A29] px-4 py-6 md:px-6 md:py-8 rounded-full shadow-lg w-24 h-24 md:w-32 md:h-32">
+                        class="flex flex-col items-center bg-[#5e110b] text-[#edc066] px-4 py-6 md:px-6 md:py-8 rounded-full shadow-lg w-24 h-24 md:w-32 md:h-32">
                         <span id="wedding-days">00</span>
                         <p class="text-sm md:text-lg font-medium mt-2" style="font-family: 'Great Vibes', cursive;">Days
                         </p>
                     </div>
                     <div
-                        class="flex flex-col items-center bg-[#F8ECE3] text-[#2C2A29] px-4 py-6 md:px-6 md:py-8 rounded-full shadow-lg w-24 h-24 md:w-32 md:h-32">
+                        class="flex flex-col items-center bg-[#5e110b] text-[#edc066] px-4 py-6 md:px-6 md:py-8 rounded-full shadow-lg w-24 h-24 md:w-32 md:h-32">
                         <span id="wedding-hours">00</span>
                         <p class="text-sm md:text-lg font-medium mt-2" style="font-family: 'Great Vibes', cursive;">
                             Hours</p>
                     </div>
                     <div
-                        class="flex flex-col items-center bg-[#F8ECE3] text-[#2C2A29] px-4 py-6 md:px-6 md:py-8 rounded-full shadow-lg w-24 h-24 md:w-32 md:h-32">
+                        class="flex flex-col items-center bg-[#5e110b] text-[#edc066] px-4 py-6 md:px-6 md:py-8 rounded-full shadow-lg w-24 h-24 md:w-32 md:h-32">
                         <span id="wedding-minutes">00</span>
                         <p class="text-sm md:text-lg font-medium mt-2" style="font-family: 'Great Vibes', cursive;">
                             Minutes</p>
                     </div>
                     <div
-                        class="flex flex-col items-center bg-[#F8ECE3] text-[#2C2A29] px-4 py-6 md:px-6 md:py-8 rounded-full shadow-lg w-24 h-24 md:w-32 md:h-32">
+                        class="flex flex-col items-center bg-[#5e110b] text-[#edc066] px-4 py-6 md:px-6 md:py-8 rounded-full shadow-lg w-24 h-24 md:w-32 md:h-32">
                         <span id="wedding-seconds">00</span>
                         <p class="text-sm md:text-lg font-medium mt-2" style="font-family: 'Great Vibes', cursive;">
                             Seconds</p>
@@ -143,136 +258,197 @@
                 </div>
             </div>
 
-            <p class="text-2xl md:text-4xl mt-12 font-light" data-aos="fade-in" data-aos-delay="500"
-                style="font-family: 'Great Vibes', cursive;">When: May 1, 2025 | 2:00 PM onwards</p>
+            <p class="text-2xl text-[#edc066] md:text-4xl mt-12 font-light" data-aos="fade-in" data-aos-delay="500"
+                style="font-family: 'Great Vibes', cursive;">When: January 17, 2026 | 2:00 PM</p>
         </div>
     </section>
 
 
     <!-- Wedding Schedule Section -->
-    <section class="py-24 bg-[#F8ECE3] text-gray-800 px-6 md:px-12 text-center" data-aos="fade-in"
-        data-aos-duration="3000">
-        <h2 class="text-4xl md:text-5xl font-light tracking-wide mb-8" style="font-family: 'Great Vibes', cursive;">When
-            & Where</h2>
+    <section class="py-24 bg-[#edc066] text-gray-800 px-6 md:px-12" data-aos="fade-in" data-aos-duration="3000">
+        <!-- Section Title -->
+        <h2 class="text-4xl text-[#5e110b] md:text-5xl font-light tracking-wide mb-12 text-center"
+            style="font-family: 'Great Vibes', cursive;">When & Where</h2>
 
-        <!-- Toggle Buttons -->
-        <div class="flex justify-center gap-6 mb-8">
-            <button id="ceremonyBtn"
-                class="toggle-btn active px-6 py-3 bg-[#3D6B5A] text-white rounded-full shadow-lg text-lg md:text-xl transition">Ceremony</button>
-            <button id="receptionBtn"
-                class="toggle-btn px-6 py-3 bg-[#E3E3E3] text-gray-800 rounded-full shadow-lg text-lg md:text-xl transition">Reception</button>
-        </div>
+        <!-- Main Content Container -->
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
 
-        <!-- Content Sections -->
-        <div id="ceremony"
-            class="toggle-content max-w-4xl mx-auto bg-transparent rounded-lg flex flex-col md:flex-row items-stretch overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1586858750326-f0ab090546cc?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                class="w-full md:w-1/3 object-cover" alt="Ceremony">
-            <div class="md:ml-6 text-left p-6">
-                <p class="text-3xl font-semibold mb-2">Wedding Ceremony</p>
-                <p class="text-lg text-gray-700">Sunday, May 1, 2025, 2:00 PM - 5:00 PM</p>
-                <p class="text-lg text-gray-700">Sierra Lane Garden, 123 Anywhere St., Any City</p>
-                <p class="text-md text-gray-600 mt-4">Join us for a beautiful and heartfelt ceremony as we say "I do" in
-                    a breathtaking garden setting.</p>
-            </div>
-        </div>
+                <!-- Left Side - Couple Images (4 Tiles) -->
+                <div class="order-2 md:order-1" data-aos="fade-right">
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Tile 1 - Tall -->
+                        <div class="rounded-2xl overflow-hidden shadow-xl row-span-2">
+                            <img src="/IMG_2166.jpeg" alt="Bride and Groom" class="w-full h-full object-cover">
+                        </div>
 
-        <div id="reception"
-            class="toggle-content max-w-4xl mx-auto bg-transparent rounded-lg flex flex-col md:flex-row items-stretch overflow-hidden hidden">
-            <img src="https://images.unsplash.com/photo-1524824267900-2fa9cbf7a506?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                class="w-full md:w-1/3 object-cover" alt="Reception">
-            <div class="md:ml-6 text-left p-6">
-                <p class="text-3xl font-semibold mb-2">Wedding Reception</p>
-                <p class="text-lg text-gray-700">Sunday, May 1, 2025, 6:00 PM - Late</p>
-                <p class="text-lg text-gray-700">Grand Ballroom, Any City Hotel</p>
-                <p class="text-md text-gray-600 mt-4">Celebrate with us in an elegant evening of dinner, dancing, and
-                    unforgettable moments.</p>
-            </div>
-        </div>
-    </section>
+                        <!-- Tile 2 - Short -->
+                        <div class="rounded-2xl overflow-hidden shadow-xl h-48">
+                            <img src="/IMG_2164.jpeg" alt="Bride and Groom" class="w-full h-full object-cover">
+                        </div>
 
-    <section class="py-24 bg-white text-gray-800 px-6 md:px-12 text-center" data-aos="fade-up" data-aos-duration="3000">
-        <h2 class="text-4xl md:text-5xl font-light tracking-wide mb-8" style="font-family: 'Great Vibes', cursive;">
-            Groomsmen & Bridesmaids</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12">
-            <div class="flex flex-col items-center">
-                <img src="https://themepresss.com/tf/html/twain-love/twain-love/assets/images/groomsmen-bridesmaid/9.jpg"
-                    class="w-48 h-48 rounded-full object-cover border-4 border-gray-300 shadow-xl" alt="Bridesmaid">
-                <p class="text-xl font-semibold mt-4">Lily Jameson</p>
-                <p class="text-gray-500">Sister</p>
-            </div>
-            <div class="flex flex-col items-center">
-                <img src="https://themepresss.com/tf/html/twain-love/twain-love/assets/images/groomsmen-bridesmaid/10.jpg"
-                    class="w-48 h-48 rounded-full object-cover border-4 border-gray-300 shadow-xl" alt="Bridesmaid">
-                <p class="text-xl font-semibold mt-4">Lily Taylor</p>
-                <p class="text-gray-500">Best Friend</p>
-            </div>
-            <div class="flex flex-col items-center">
-                <img src="https://themepresss.com/tf/html/twain-love/twain-love/assets/images/groomsmen-bridesmaid/11.jpg"
-                    class="w-48 h-48 rounded-full object-cover border-4 border-gray-300 shadow-xl" alt="Groomsman">
-                <p class="text-xl font-semibold mt-4">Ema Aliana</p>
-                <p class="text-gray-500">Friend</p>
-            </div>
-            <div class="flex flex-col items-center">
-                <img src="https://themepresss.com/tf/html/twain-love/twain-love/assets/images/groomsmen-bridesmaid/12.jpg"
-                    class="w-48 h-48 rounded-full object-cover border-4 border-gray-300 shadow-xl" alt="Groomsman">
-                <p class="text-xl font-semibold mt-4">Joey Famira</p>
-                <p class="text-gray-500">Best Friend</p>
-            </div>
-            <div class="flex flex-col items-center">
-                <img src="https://themepresss.com/tf/html/twain-love/twain-love/assets/images/groomsmen-bridesmaid/13.jpg"
-                    class="w-48 h-48 rounded-full object-cover border-4 border-gray-300 shadow-xl" alt="Bridesmaid">
-                <p class="text-xl font-semibold mt-4">Criys stone</p>
-                <p class="text-gray-500">Brother</p>
-            </div>
-            <div class="flex flex-col items-center">
-                <img src="https://themepresss.com/tf/html/twain-love/twain-love/assets/images/groomsmen-bridesmaid/14.jpg"
-                    class="w-48 h-48 rounded-full object-cover border-4 border-gray-300 shadow-xl" alt="Bridesmaid">
-                <p class="text-xl font-semibold mt-4">Watson Lyn</p>
-                <p class="text-gray-500">Best Friend</p>
-            </div>
-            <div class="flex flex-col items-center">
-                <img src="https://themepresss.com/tf/html/twain-love/twain-love/assets/images/groomsmen-bridesmaid/15.jpg"
-                    class="w-48 h-48 rounded-full object-cover border-4 border-gray-300 shadow-xl" alt="Groomsman">
-                <p class="text-xl font-semibold mt-4">Chris Fletcher</p>
-                <p class="text-gray-500">Friend</p>
-            </div>
-            <div class="flex flex-col items-center">
-                <img src="https://themepresss.com/tf/html/twain-love/twain-love/assets/images/groomsmen-bridesmaid/16.jpg"
-                    class="w-48 h-48 rounded-full object-cover border-4 border-gray-300 shadow-xl" alt="Groomsman">
-                <p class="text-xl font-semibold mt-4">John Clyne</p>
-                <p class="text-gray-500">Best Friend</p>
+                        <!-- Tile 3 - Short -->
+                        <div class="rounded-2xl overflow-hidden shadow-xl h-48">
+                            <img src="/IMG_2153.jpeg" alt="Bride and Groom" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Tile 4 - Medium (spans 2 columns) -->
+                        <div class="rounded-2xl overflow-hidden shadow-xl col-span-2 h-64">
+                            <img src="/IMG_2158.jpeg" alt="Bride and Groom" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side - Event Details -->
+                <div class="order-1 md:order-2" data-aos="fade-left">
+
+                    <!-- Toggle Buttons -->
+                    <div class="flex justify-center md:justify-start gap-4 mb-8">
+                        <button id="ceremonyBtn"
+                            class="toggle-btn active px-6 py-3 bg-[#5e110b] text-[#edc066] rounded-full shadow-lg text-lg transition hover:scale-105">
+                            Ceremony
+                        </button>
+                        <button id="receptionBtn"
+                            class="toggle-btn px-6 py-3 bg-[#5e110b] text-[#edc066] rounded-full shadow-lg text-lg transition hover:scale-105">
+                            Reception
+                        </button>
+                    </div>
+
+                    <!-- Ceremony Details -->
+                    <div id="ceremony"
+                        class="toggle-content bg-white/40 backdrop-blur-sm rounded-xl overflow-hidden shadow-xl">
+                        <!-- Church Image -->
+                        <div class="w-full h-48 overflow-hidden">
+                            <img src="/church.jpg" alt="Wedding Ceremony Venue" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Details Content -->
+                        <div class="p-8">
+                            <p class="text-4xl text-[#5e110b] font-semibold mb-6"
+                                style="font-family: 'Great Vibes', cursive;">
+                                Wedding Ceremony
+                            </p>
+
+                            <div class="space-y-5">
+                                <div class="flex items-center text-lg text-gray-800">
+                                    <span class="material-icons-outlined text-[#5e110b] mr-3 text-2xl">event</span>
+                                    <span class="font-medium">Saturday, January 17, 2026</span>
+                                </div>
+
+                                <div class="flex items-center text-lg text-gray-800">
+                                    <span class="material-icons-outlined text-[#5e110b] mr-3 text-2xl">schedule</span>
+                                    <span class="font-medium">2:00 PM</span>
+                                </div>
+
+                                <div class="flex items-start text-lg text-gray-800">
+                                    <span
+                                        class="material-icons-outlined text-[#5e110b] mr-3 mt-1 text-2xl">location_on</span>
+                                    <div>
+                                        <p class="font-semibold">St. Francis of Assisi Parish - Maa</p>
+                                        <p class="text-base text-gray-700">Don Julian Rodriguez Sr. Ave, Talomo, Davao
+                                            City, 8000 Davao del Sur</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-6 border-t border-[#5e110b]/20">
+                                <p class="text-base text-gray-700 leading-relaxed">
+                                    Join us for a beautiful and heartfelt ceremony as we say "I do" in a breathtaking
+                                    garden setting.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reception Details -->
+                    <div id="reception"
+                        class="toggle-content bg-white/40 backdrop-blur-sm rounded-xl overflow-hidden shadow-xl hidden">
+                        <!-- Reception Image -->
+                        <div class="w-full h-48 overflow-hidden">
+                            <img src="/reception.jpg" alt="Wedding Reception Venue" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Details Content -->
+                        <div class="p-8">
+                            <p class="text-4xl text-[#5e110b] font-semibold mb-6"
+                                style="font-family: 'Great Vibes', cursive;">
+                                Wedding Reception
+                            </p>
+
+                            <div class="space-y-5">
+                                <div class="flex items-center text-lg text-gray-800">
+                                    <span class="material-icons-outlined text-[#5e110b] mr-3 text-2xl">event</span>
+                                    <span class="font-medium">Saturday, January 17, 2026</span>
+                                </div>
+
+                                <div class="flex items-center text-lg text-gray-800">
+                                    <span class="material-icons-outlined text-[#5e110b] mr-3 text-2xl">schedule</span>
+                                    <span class="font-medium">4:30 PM</span>
+                                </div>
+
+                                <div class="flex items-start text-lg text-gray-800">
+                                    <span
+                                        class="material-icons-outlined text-[#5e110b] mr-3 mt-1 text-2xl">location_on</span>
+                                    <div>
+                                        <p class="font-semibold">Instagrill Events Venue - Maa Branch</p>
+                                        <p class="text-base text-gray-700">Don Julian Rodriguez Sr. Ave, Talomo, Davao
+                                            City, 8000 Davao del Sur</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-6 border-t border-[#5e110b]/20">
+                                <p class="text-base text-gray-700 leading-relaxed">
+                                    Celebrate with us in an elegant evening of dinner, dancing, and unforgettable
+                                    moments.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </section>
 
     <!-- RSVP Section -->
-    <section class="py-24 bg-[#2C2A29] text-white px-12 text-center">
-        <h2 class="text-5xl mb-6" data-aos="fade-up" style="font-family: 'Great Vibes', cursive;">RSVP</h2>
-        <p class="text-lg mb-6" data-aos="fade-up">We would love to celebrate with you! Please let us know if you can
-            attend.</p>
+    <section class="py-24 bg-[#5e110b] text-white px-6 sm:px-12 text-center">
+        <h2 class="text-5xl text-[#edc066] mb-6" data-aos="fade-up" style="font-family: 'Great Vibes', cursive;">
+            RSVP
+        </h2>
+        <p class="text-lg text-[#edc066] mb-6" data-aos="fade-up">
+            We would love to celebrate with you! Please let us know if you can attend.
+        </p>
 
         <div class="mt-12 flex flex-col md:flex-row gap-12 justify-center items-center">
-            <div class="relative w-2/3 h-[600px] rounded-xl shadow-md overflow-hidden" data-aos="zoom-in">
+            <div class="relative w-full sm:w-5/6 md:w-2/3 lg:w-1/2 h-[700px] rounded-xl shadow-md overflow-hidden"
+                data-aos="zoom-in">
                 <iframe class="absolute inset-0 w-full h-full border-none rounded-xl"
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSds8w4Z6TTUXqYEDOLEVChaxZJv4Yy_TX7UQBigvLp0B0AJww/viewform?usp=header" allowfullscreen
-                    loading="lazy"></iframe>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- Getting There -->
-    <section class="py-24 bg-[#2C2A29] text-white px-12 text-center">
-        <h2 class="text-5xl mb-6" data-aos="fade-up" style="font-family: 'Great Vibes', cursive;">Getting There</h2>
-        <div class="mt-12 flex flex-col md:flex-row gap-12 justify-center items-center">
-            <div class="relative w-2/3 h-96 rounded-xl shadow-md overflow-hidden" data-aos="zoom-in">
-                <iframe class="absolute inset-0 w-full h-full border-none rounded-xl"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2799090576!2d-74.25986637810283!3d40.69767006320412!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c250b2522b4c35%3A0xf9b26340a03f020a!2sNew%20York%2C%20NY!5e0!3m2!1sen!2us!4v1709838458419!5m2!1sen!2us"
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSds8w4Z6TTUXqYEDOLEVChaxZJv4Yy_TX7UQBigvLp0B0AJww/viewform?usp=header"
                     allowfullscreen loading="lazy"></iframe>
             </div>
         </div>
     </section>
+
+
+
+    <!-- Getting There -->
+    <section class="py-24 bg-[#edc066] text-white px-6 sm:px-12 text-center overflow-hidden">
+        <h2 class="text-5xl text-[#5e110b] mb-6" data-aos="fade-up" style="font-family: 'Great Vibes', cursive;">
+            Getting There
+        </h2>
+
+        <div class="mt-12 flex flex-col md:flex-row gap-12 justify-center items-center">
+            <div class="relative w-full sm:w-5/6 md:w-2/3 lg:w-1/2 h-[450px] rounded-xl shadow-md overflow-hidden"
+                data-aos="zoom-in">
+                <iframe class="absolute inset-0 w-full h-full border-none rounded-xl"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.2024787418804!2d125.58237229999999!3d7.1025169!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f96cdc08a3ae2f%3A0xfeddb1a3afde18c5!2sSt.%20Francis%20of%20Assisi%20Parish!5e0!3m2!1sen!2sph!4v1760970144858!5m2!1sen!2sph"
+                    allowfullscreen loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
 </body>
 
 </html>
@@ -282,7 +458,7 @@
         once: true       // Animation runs only once
     });
     function updateWeddingCountdown() {
-        const weddingDate = new Date("May 1, 2025 14:00:00").getTime();
+        const weddingDate = new Date("January 17, 2026 14:00:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
             const timeLeft = weddingDate - now;
@@ -299,12 +475,12 @@
         button.addEventListener("click", function () {
             // Remove active class from all buttons
             document.querySelectorAll(".toggle-btn").forEach(btn => {
-                btn.classList.remove("bg-[#3D6B5A]", "text-white");
+                btn.classList.remove("bg-[#5e110b]", "text-white");
                 btn.classList.add("bg-[#E3E3E3]", "text-gray-800");
             });
 
             // Add active class to clicked button
-            this.classList.add("bg-[#3D6B5A]", "text-white");
+            this.classList.add("bg-[#5e110b]", "text-[#edc066]");
             this.classList.remove("bg-[#E3E3E3]", "text-gray-800");
 
             // Hide all content sections
@@ -329,9 +505,145 @@
 
             setTimeout(() => {
                 preloader.style.display = "none";
-                content.classList.remove("hidden");
             }, 1000); // Wait for the transition to complete before removing
         }, 3000); // Adjust this to control how long the preloader stays visible
+    });
+
+    const imageFolder = '/';
+    const imageFiles = [];
+    for (let i = 2140; i <= 2178; i++) {
+        if (i === 2168 || i === 2172) continue; // skip these
+        imageFiles.push(`IMG_${i}.jpeg`);
+    }
+
+    const track1 = document.getElementById('carouselTrack1');
+    const track2 = document.getElementById('carouselTrack2');
+
+    // Fill carousels
+    const fillCarousel = (track, reverse = false) => {
+        const files = reverse ? [...imageFiles].reverse() : imageFiles;
+        track.innerHTML = ''; // clear before refilling to prevent duplicates
+        [...files, ...files].forEach(file => {
+            const div = document.createElement('div');
+            div.className = 'flex-shrink-0 w-80';
+            div.innerHTML = `
+      <img src="${imageFolder}${file}" 
+           class="carousel-img rounded-2xl object-cover w-full h-60 shadow-md">
+    `;
+            track.appendChild(div);
+        });
+    };
+
+    fillCarousel(track1, imageFiles);
+
+    // Carousel 2 → reversed order (IMG_2178 → IMG_2140)
+    fillCarousel(track2, [...imageFiles].reverse());
+
+    function updateScrollDistance() {
+        const track = document.getElementById('carouselTrack1');
+        if (!track) return;
+
+        const totalWidth = track.scrollWidth;
+        const visibleWidth = track.parentElement.offsetWidth;
+        const scrollDistance = totalWidth - visibleWidth;
+
+        // Set CSS variable for distance
+        document.documentElement.style.setProperty('--scroll-distance', `${scrollDistance}px`);
+
+        // Calculate duration based on distance
+        const baseSpeed = 80; // adjust speed
+        const duration = scrollDistance / baseSpeed;
+
+        // Reapply animation duration
+        document.querySelectorAll('.animate-scroll-left, .animate-scroll-right').forEach(track => {
+            track.style.animationDuration = `${duration}s`;
+        });
+    }
+
+    // Run on load
+    window.addEventListener('load', () => {
+        updateScrollDistance();
+    });
+
+    // Recalculate + restart animation on resize (with debounce)
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            // Pause animations
+            document.querySelectorAll('.animate-scroll-left, .animate-scroll-right').forEach(track => {
+                track.style.animation = 'none';
+                void track.offsetWidth; // force reflow to reset animation
+                track.style.animation = ''; // restore animation
+            });
+
+            updateScrollDistance(); // recalc distance and duration
+        }, 300);
+    });
+
+
+    const heroImages = [
+        '/IMG_2173.jpeg',
+        '/IMG_2175.jpeg',
+        '/IMG_2169.jpeg',
+        '/IMG_2178.jpeg'
+    ];
+
+    let current = 0;
+    const bg1 = document.getElementById('bg1');
+    const bg2 = document.getElementById('bg2');
+    let showingBg1 = true;
+
+    // Preload images
+    heroImages.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+
+    setInterval(() => {
+        current = (current + 1) % heroImages.length;
+        const nextImage = heroImages[current];
+
+        if (showingBg1) {
+            bg2.style.backgroundImage = `url('${nextImage}')`;
+            bg2.style.opacity = 1;
+            bg1.style.opacity = 0;
+        } else {
+            bg1.style.backgroundImage = `url('${nextImage}')`;
+            bg1.style.opacity = 1;
+            bg2.style.opacity = 0;
+        }
+
+        showingBg1 = !showingBg1;
+    }, 2000); // change every 2 seconds
+
+
+
+
+
+
+
+
+
+    // Toggle functionality for ceremony and reception
+    document.getElementById('ceremonyBtn').addEventListener('click', function () {
+        // Toggle buttons
+        document.getElementById('ceremonyBtn').classList.add('active');
+        document.getElementById('receptionBtn').classList.remove('active');
+
+        // Toggle content
+        document.getElementById('ceremony').classList.remove('hidden');
+        document.getElementById('reception').classList.add('hidden');
+    });
+
+    document.getElementById('receptionBtn').addEventListener('click', function () {
+        // Toggle buttons
+        document.getElementById('receptionBtn').classList.add('active');
+        document.getElementById('ceremonyBtn').classList.remove('active');
+
+        // Toggle content
+        document.getElementById('reception').classList.remove('hidden');
+        document.getElementById('ceremony').classList.add('hidden');
     });
 
 </script>
